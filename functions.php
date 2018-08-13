@@ -1,4 +1,9 @@
 <?php
+/**
+* @author Ardan Ardzz
+* @link https://fb.com/4rdzz
+* @package OXER
+*/
 $green  = "\e[1;92m";
 $cyan   = "\e[1;36m";
 $normal = "\e[0m";
