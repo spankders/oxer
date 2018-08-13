@@ -2,7 +2,7 @@
 <?php
 include 'functions.php';
 if (empty($argv[1]) or $argv[1] == "-h") {
-    echo "Usage : php " . $argv[0] . " [Options...]\n";
+    echo "Usage : " . $argv[0] . " [Options...]\n";
     echo "-M, --mass-check     Mass Check\n";
     echo "-S, --single-check   Single Check\n";
     echo "-G, --grab-proxy     Grab Proxy\n";
@@ -13,13 +13,19 @@ if (empty($argv[1]) or $argv[1] == "-h") {
 elseif ($argv[1] == "--mass-check" | $argv[1] == "-M") {
     // $file = "proxy-list.txt";
     if (empty($argv[2])) {
-        echo "Usage : php " . $argv[0] . " [Options...] [Filename...]\n";
+        echo "Usage : " . $argv[0] . " [Options...] [Filename...]\n";
         echo "-M, --mass-check     Mass Check\n";
         echo "-F, --file-name      Filename\n";
-        echo "Example : php $argv[0] -M -F \"proxy-list.txt\"\n";
+        echo "Example : $argv[0] -M -F \"proxy-list.txt\"\n";
         exit();
     }
     $file = $argv[3];
+    if(!file_exists($file)) {
+        echo oxer_error();
+        echo "::::::::::::::::[ ".$red."File is Not Found!".$normal." ]::::::::::::::::\n";
+        echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::\n";
+        exit();
+    }
     $proxy = explode("\n", file_get_contents($file));
     system("clear");
     echo "===================[ PROXY CHECKER ]====================\n";
@@ -33,10 +39,10 @@ elseif ($argv[1] == "--mass-check" | $argv[1] == "-M") {
 }
 elseif ($argv[1] == "--single-check" | $argv[1] == "-S") {
     if (empty($argv[2])) {
-        echo "Usage : php " . $argv[0] . " [Options...] [Proxy...]\n";
+        echo "Usage : " . $argv[0] . " [Options...] [Proxy...]\n";
         echo "-S, --single-check     Single Check\n";
         echo "-P, --proxy            Proxy\n";
-        echo "Example : php $argv[0] -S -P \"182.253.71.116:8080\"\n";
+        echo "Example : $argv[0] -S -P \"182.253.71.116:8080\"\n";
         exit();
     }
     elseif (empty($argv[3])) {
@@ -54,14 +60,14 @@ elseif ($argv[1] == "--single-check" | $argv[1] == "-S") {
 }
 elseif ($argv[1] == "--grab-proxy" | $argv[1] == "-G") {
     if (empty($argv[2])) {
-        echo "Usage : php $argv[0] [Options...] [Save-as...]\n";
+        echo "Usage : $argv[0] [Options...] [Save-as...]\n";
         echo "-SA, --save-as    Save As Proxy List\n";
-        echo "Example : php $argv[0] -G -SA \"proxy-list.txt\"\n";
+        echo "Example : $argv[0] -G -SA \"proxy-list.txt\"\n";
     }
     elseif (empty($argv[3])) {
-        echo "Usage : php $argv[0] [Options...] [Save-as...]\n";
+        echo "Usage : $argv[0] [Options...] [Save-as...]\n";
         echo "-SA, --save-as    Save As Proxy List\n";
-        echo "Example : php $argv[0] -G -SA \"proxy-list.txt\"\n";
+        echo "Example : $argv[0] -G -SA \"proxy-list.txt\"\n";
     }
     else {
         $json = json_decode(file_get_contents("https://api.zonkploit.com/proxy-list") , true);
@@ -116,7 +122,7 @@ elseif ($argv[1] == "-V" | $argv[1] == "--version") {
 echo "Version 1.0 Beta\n";
 }
 else {
-    echo "Usage : php " . $argv[0] . " [Options...]\n";
+    echo "Usage : " . $argv[0] . " [Options...]\n";
     echo "-M, --mass-check     Mass Check\n";
     echo "-S, --single-check   Single Check\n";
     echo "-G, --grab-proxy     Grab Proxy\n";
