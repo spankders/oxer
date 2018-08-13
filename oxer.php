@@ -2,7 +2,8 @@
 <?php
 /**
 * @author Ardan Ardzz
-* @package 
+* @link https://fb.com/4rdzz
+* @package OXER
 */
 include 'functions.php';
 if (empty($argv[1]) or $argv[1] == "-h") {
