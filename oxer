@@ -1,0 +1,251 @@
+#!/usr/bin/php
+<?php
+$green  = "\e[1;92m";
+$cyan   = "\e[1;36m";
+$normal = "\e[0m";
+$blue   = "\e[34m";
+$green1 = "\e[0;92m";
+$yellow = "\e[93m";
+$red    = "\e[1;91m";
+$version = "1.0";
+function check_proxy($px){
+    if (empty($px)) {
+        echo "[!] Proxy is empty!\n";
+    }else{
+    /*
+    Set URL
+    */
+    $url = "https://www.google.com";
+    /*
+    Other 
+    ....
+    */
+    $green  = "\e[1;92m";
+    $cyan   = "\e[1;36m";
+    $normal = "\e[0m";
+    $blue   = "\e[34m";
+    $green1 = "\e[0;92m";
+    $yellow = "\e[93m";
+    $red    = "\e[1;91m";
+    $timeout = 10;
+    $a = 1;
+    $pecah = explode(":", $px);
+    $ipx = $pecah[0];
+    $port = $pecah[1];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 0);
+    curl_setopt($ch, CURLOPT_PROXY, $px);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); 
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $data = curl_exec($ch);
+    $header = substr($data, 0, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+    $body = substr($data, curl_getinfo($ch, CURLINFO_HEADER_SIZE));
+    $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $info = curl_getinfo($ch);
+    curl_close($ch);
+    if (empty($response)) {
+        echo "[!] Proxy is ".$red."DIE!\n".$normal;
+        echo "[*] Using proxy [$px]\n";
+        // show curl error
+        #curl_error($ch);
+        //exit();
+    }else{
+        $json = json_decode(file_get_contents("https://api.zonkploit.com/ip-lookup/".$ipx),1);
+        preg_match("'(.*?)\r\n'", $header, $match);
+        echo "[+] Proxy is ".$green1."LIVE\n".$normal;
+        echo "[?] Using proxy [$px]\n";
+        echo "[*] Response Proxy : ".$match[1]."\n";
+        echo "[*] Timeout        : ".round($info["total_time"])."s\n";
+        echo "[+] Country        : ".$json["country_name"]."\n";
+        echo "[+] ISP            : ".$json["organization"]."\n";
+        echo "[+] Hostname       : ".$json["hostname"]."\n";
+        //echo "[*] Speed Proxy    : ".$info["speed_download"]."\n";
+    }
+}
+}
+function save($name, $isi)
+{
+    $jud1 = fopen($name, "a");
+    fwrite($jud1, $isi . "\n");
+    fclose($jud1);
+}function banner(){
+$green  = "\e[1;92m";
+$cyan   = "\e[1;36m";
+$normal = "\e[0m";
+$blue   = "\e[34m";
+$green1 = "\e[0;92m";
+$yellow = "\e[93m";
+$red    = "\e[1;91m";
+system("clear");
+$banner = ":::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::'#####::::::'##::::'##::::'########::::'########::
+::'##.. ##:::::. ##::'##::::: ##.....::::: ##.... ##:
+:'##:::: ##:::::. ##'##:::::: ##:::::::::: ##:::: ##:
+: ##:::: ##::::::. ###::::::: ######:::::: ########::
+: ##:::: ##:::::: ## ##:::::: ##...::::::: ##.. ##:::
+:. ##:: ##:::::: ##:. ##::::: ##:::::::::: ##::. ##::
+::. #####:::::: ##:::. ##:::: ########:::: ##:::. ##:
+:::.....:::::::..:::::..:::::........:::::..:::::..::
+::::::::::::::::[ ".$green."PROXY CHECKER v1.0".$normal." ]:::::::::::::::
+::::::::::::::::::::::::[ ".$yellow."BY".$normal." ]:::::::::::::::::::::::\n";
+$banner1 = ":::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::'###::::'########::'########::'########:'########:
+::'## ##::: ##.... ##: ##.... ##:..... ##::..... ##::
+:'##:. ##:: ##:::: ##: ##:::: ##::::: ##::::::: ##:::
+'##:::. ##: ########:: ##:::: ##:::: ##::::::: ##::::
+ #########: ##.. ##::: ##:::: ##::: ##::::::: ##:::::
+ ##.... ##: ##::. ##:: ##:::: ##:: ##::::::: ##::::::
+ ##:::: ##: ##:::. ##: ########:: ########: ########:
+..:::::..::..:::::..::........:::........::........::
+:::::::::::::::::::::::::::::::::::::::::::::::::::::\n";
+return str_replace("#", $cyan."=".$normal, $banner).str_replace("#", $green."X".$normal, $banner1);
+}
+function oxer_error(){
+$green  = "\e[1;92m";
+$cyan   = "\e[1;36m";
+$normal = "\e[0m";
+$blue   = "\e[34m";
+$green1 = "\e[0;92m";
+$yellow = "\e[93m";
+$red    = "\e[1;91m";
+system("clear");
+$banner = "::::::::::::::::::::::::::::::::::::::::::::::::::::::
+'########:'########::'########:::'#######::'########::
+:##.....:: ##.... ##: ##.... ##:'##.... ##: ##.... ##:
+:##::::::: ##:::: ##: ##:::: ##: ##:::: ##: ##:::: ##:
+:######::: ########:: ########:: ##:::: ##: ########::
+:##...:::: ##.. ##::: ##.. ##::: ##:::: ##: ##.. ##:::
+:##::::::: ##::. ##:: ##::. ##:: ##:::: ##: ##::. ##::
+:########: ##:::. ##: ##:::. ##:. #######:: ##:::. ##:
+........::..:::::..::..:::::..:::.......:::..:::::..::\n";
+return str_replace("#", $red."!".$normal, $banner);
+}function is_root(){
+if(posix_getuid()==0){
+return true;
+}
+else{
+return false;
+exit();
+}
+}
+if (empty($argv[1]) or $argv[1] == "-h") {
+    echo "Usage : php " . $argv[0] . " [Options...]\n";
+    echo "-M, --mass-check     Mass Check\n";
+    echo "-S, --single-check   Single Check\n";
+    echo "-G, --grab-proxy     Grab Proxy\n";
+    echo "-A, --about          About This Tool\n";
+}
+elseif ($argv[1] == "--mass-check" | $argv[1] == "-M") {
+    // $file = "proxy-list.txt";
+    if (empty($argv[2])) {
+        echo "Usage : php " . $argv[0] . " [Options...] [Filename...]\n";
+        echo "-M, --mass-check     Mass Check\n";
+        echo "-F, --file-name      Filename\n";
+        echo "Example : php $argv[0] -M -F \"proxy-list.txt\"\n";
+        exit();
+    }
+    $file = $argv[3];
+    $proxy = explode("\n", file_get_contents($file));
+    system("clear");
+    echo "===================[ PROXY CHECKER ]====================\n";
+    $a = 1;
+    foreach($proxy as $px) {
+        $j = count($proxy) - 1;
+        echo $green1 . "[" . $a++ . "/" . $j . "] Checking Proxy\n" . $normal;
+        check_proxy($px);
+    }
+    echo "===================[ PROXY CHECKER ]====================\n";
+}
+elseif ($argv[1] == "--single-check" | $argv[1] == "-S") {
+    if (empty($argv[2])) {
+        echo "Usage : php " . $argv[0] . " [Options...] [Proxy...]\n";
+        echo "-S, --single-check     Single Check\n";
+        echo "-P, --proxy            Proxy\n";
+        echo "Example : php $argv[0] -S -P \"182.253.71.116:8080\"\n";
+        exit();
+    }
+    elseif (empty($argv[3])) {
+        echo oxer_error();
+        echo ":::::::::::::::::[ ".$red."Proxy is Empty!".$normal." ]::::::::::::::::::\n";
+        echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::\n";
+        exit();
+    }
+    else {
+        echo "===================[ PROXY CHECKER ]====================\n";
+        echo "[?] Checking Proxy\n" . $normal;
+        check_proxy($argv[3]);
+        echo "===================[ PROXY CHECKER ]====================\n";
+    }
+}
+elseif ($argv[1] == "--grab-proxy" | $argv[1] == "-G") {
+    if (empty($argv[2])) {
+        echo "Usage : php $argv[0] [Options...] [Save-as...]\n";
+        echo "-SA, --save-as    Save As Proxy List\n";
+        echo "Example : php $argv[0] -G -SA \"proxy-list.txt\"\n";
+    }
+    elseif (empty($argv[3])) {
+        echo "Usage : php $argv[0] [Options...] [Save-as...]\n";
+        echo "-SA, --save-as    Save As Proxy List\n";
+        echo "Example : php $argv[0] -G -SA \"proxy-list.txt\"\n";
+    }
+    else {
+        $json = json_decode(file_get_contents("https://api.zonkploit.com/proxy-list") , true);
+        foreach($json["result"] as $js) {
+            echo $js["ip"] . ":" . $js["port"] . "\n";
+            save($argv[3], $js["ip"] . ":" . $js["port"]);
+        }
+    }
+}
+elseif ($argv[1] == "--update" | $argv[1] == "-U") {
+$json = json_decode(file_get_contents("https://api.zonkploit.com/oxer/check-update/".$version),1);
+if ($json["update"] == "yes") {
+    echo "[+] Update is Available\n";
+}else{
+    echo "[?] Update is Unavailable\n";
+}
+}elseif ($argv[1] == "--uninstall" | $argv[1] == "-UN") {
+if(is_root()){
+if(file_exists("/usr/bin/oxer")){
+    unlink("/usr/bin/oxer");
+    echo "[!] OXER is successfully unstalled!\n";
+}
+}else{
+    echo oxer_error();
+    echo "[!] OXER is not installed\n";
+}
+}
+elseif ($argv[1] == "--install" | $argv[1] == "-I") {
+if(is_root()){
+if(file_exists("/usr/bin/oxer")){
+    echo oxer_error();
+    echo "[!] OXER is already installed!\n";
+}else{
+    system("cp oxer /usr/bin/oxer && chmod +x oxer");
+    echo "[+] OXER is successfully installed!\n";
+    echo "[?] run oxer with command \"oxer [Options...]\"\n";
+}
+}else{
+    echo oxer_error();
+    echo "::::::::::::::::[ ".$red."User is Not Root".$normal." ]::::::::::::::::::\n";
+    echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::\n";
+}
+}
+elseif ($argv[1] == "--about" | $argv[1] == "-A") {
+echo banner();
+}
+elseif ($argv[1] == "-V" | $argv[1] == "--version") {
+echo "Version 1.0 Beta\n";
+}
+else {
+    echo "Usage : php " . $argv[0] . " [Options...]\n";
+    echo "-M, --mass-check     Mass Check\n";
+    echo "-S, --single-check   Single Check\n";
+    echo "-G, --grab-proxy     Grab Proxy\n";
+    echo "-A, --about          About This Tool\n";
+}
+?>
