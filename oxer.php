@@ -1,11 +1,16 @@
 #!/usr/bin/php
 <?php
+/**
+* @author Ardan Ardzz
+* @package 
+*/
 include 'functions.php';
 if (empty($argv[1]) or $argv[1] == "-h") {
     echo "Usage : " . $argv[0] . " [Options...]\n";
     echo "-M, --mass-check     Mass Check\n";
     echo "-S, --single-check   Single Check\n";
     echo "-G, --grab-proxy     Grab Proxy\n";
+    echo "-U, --update         Update\n";
     echo "-I, --install        Install OXER in system\n";
     echo "-UN, --uninstall     Uninstall OXER from system\n";
     echo "-A, --about          About This Tool\n";
@@ -81,6 +86,15 @@ elseif ($argv[1] == "--update" | $argv[1] == "-U") {
 $json = json_decode(file_get_contents("https://api.zonkploit.com/oxer/check-update/".$version),1);
 if ($json["update"] == "yes") {
     echo "[+] Update is Available\n";
+    $o = readline("[?] Want to update now? [y/n] : ");
+    if ($o == "y") {
+    echo "[*] Downloading script\n";
+    $url = "https://raw.githubusercontent.com/ardzz/oxer/master/oxer.php";
+    shell_exec("wget -O $argv[0] $url 2>&1");
+    echo "[+] Update successfully\n";
+    }else{
+        echo "[+] Update canceled\n";
+    }
 }else{
     echo "[?] Update is Unavailable\n";
 }
@@ -126,6 +140,7 @@ else {
     echo "-M, --mass-check     Mass Check\n";
     echo "-S, --single-check   Single Check\n";
     echo "-G, --grab-proxy     Grab Proxy\n";
+    echo "-U, --update         Update\n";
     echo "-I, --install        Install OXER in system\n";
     echo "-UN, --uninstall     Uninstall OXER from system\n";
     echo "-A, --about          About This Tool\n";
